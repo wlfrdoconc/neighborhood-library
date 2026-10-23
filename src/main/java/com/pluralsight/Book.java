@@ -12,15 +12,30 @@ public class Book {
     // 5. When a book is checked in: set checkedOutTo to the "" and isCheckedOut to false
 
 
-    int id;
-    String isbn;
-    String title;
-    boolean isCheckedOut;
-    String checkedOutTo;
+    private int id;
+    private String isbn;
+    private String title;
+    private boolean isCheckedOut;
+    private String checkedOutTo;
 
     // Constructors
-    public Book() {
 
+    // Parameterless
+    public Book() {
+        this.id = 0;
+        this.isbn = "";
+        this.title = "";
+        this.isCheckedOut = false;
+        this.checkedOutTo = "";
+    }
+
+    // Parameterized
+    public Book(int id, String isbn, String title) {
+       this.id = id;
+       this.isbn = isbn;
+       this.title = title;
+       this.isCheckedOut = false;
+       this.checkedOutTo = "";
     }
 
     // Setters and Getters
@@ -48,13 +63,34 @@ public class Book {
         this.title = title;
     }
 
-    public boolean isCheckout() {
-        return isCheckout;
+    public boolean isCheckedOut() {
+        return isCheckedOut;
     }
 
-    public void setCheckout(boolean checkout) {
-        isCheckout = checkout;
+    public void setCheckedOut(boolean checkedOut) {
+        isCheckedOut = checkedOut;
     }
 
-    boolean isCheckout;
+    public String getCheckedOutTo() {
+        return checkedOutTo;
+    }
+
+    public void setCheckedOutTo(String checkedOutTo) {
+        this.checkedOutTo = checkedOutTo;
+    }
+
+    // Methods
+
+    // checkOut method to update setCheckOut to person's name and make isCheckedOut to true
+    public void checkOut(String name) {
+        this.isCheckedOut = true;
+        this.checkedOutTo = name;
+    }
+
+    // checkIn method to update the system when a user returns a book
+    public void checkIn() {
+        this.isCheckedOut = false;
+        this.checkedOutTo = "";
+    }
+
 }
