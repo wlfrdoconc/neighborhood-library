@@ -1,3 +1,9 @@
+/**
+ * Workshop 2W: Neighborhood Library
+ * 10/26/2026
+ * @author Wilfredo Concepcion
+ */
+
 package com.pluralsight;
 
 import java.util.Scanner;
@@ -5,57 +11,44 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
-        // Requirements in main
-
-        // 1. Home Screen with three options the user can choose from:
-        // Show Available Books (Type 1 to show)
-        // Show Checked Out Books (Type 2 to show)
-        // Exit - closes the application
-
-        // 2. Show available books
-        // List all books that are not checked out
-        // Show the id, ISBN, and title
-
-        // 3. Show checked out books
-        // List all books that are checked out
-        // Show the id, ISBN, title, and name of person who has it
-        // Prompt the user: C - to check in a book, X - to go back to the home screen
-
-        // 4. Check in a book
-        // Prompt for the id of the check in, check it in and go back to the home screen
+        // Project Requirements
+        // 1. Display a home screen with options to view available books, checked out books, or exit
+        // 2. Initialize an inventory of 20 books with unique IDs, ISBNs, and titles
+        // 3. Show available books with their ID, ISBN, and title
+        // 4. Allow users to check out a book by ID and enter their name, or return to the main menu
+        // 5. Show checked out books with their ID, ISBN, title, and borrower's name
+        // 6. Allow users to check in books by ID, handle invalid inputs, or return to the main menu
 
         // Entry point
-        System.out.println("====================================");
-        System.out.println("WELCOME TO THE NEIGHBORHOOD LIBRARY!");
-        System.out.println("====================================");
+        System.out.println("======== Welcome to the Neighborhood Library! ========");
 
         // Array of 20 books
         Book[] inventory = {
-                new Book(1, "9781234567897", "One Piece"),
-                new Book(2, "9782345678901", "Harry Potter"),
-                new Book(3, "9783456789012", "Black Clover"),
-                new Book(4, "9784567890123", "The Odyssey"),
-                new Book(5, "9785678901234", "The Catcher in the Rye"),
-                new Book(6, "9786789012345", "Magi"),
-                new Book(7, "9787890123456", "Blank Canvas"),
-                new Book(8, "9788901234567", "Berserk"),
-                new Book(9, "9789012345678", "Vagabond"),
-                new Book(10, "9780123456789", "Kingdom"),
-                new Book(11, "9781122334455", "ReLife"),
-                new Book(12, "9782233445566", "Hunter x Hunter"),
-                new Book(13, "9783344556677", "The Great Gatsby"),
-                new Book(14, "9784455667788", "The Boxer"),
-                new Book(15, "9785566778899", "Fragrant Flower"),
-                new Book(16, "9786677889900", "To Kill a Mocking Bird"),
-                new Book(17, "9787788990011", "1984"),
-                new Book(18, "9788899001122", "Land of the Lustrous"),
-                new Book(19, "9789900112233", "Tokyo Ghoul"),
-                new Book(20, "9781011121314", "Slam Dunk")
+                new Book(1, "978-1-2345-6789-7", "One Piece"),
+                new Book(2, "978-2-3456-7890-1", "Harry Potter"),
+                new Book(3, "978-3-4567-8901-2", "Black Clover"),
+                new Book(4, "978-4-5678-9012-3", "The Odyssey"),
+                new Book(5, "978-5-6789-0123-4", "The Catcher in the Rye"),
+                new Book(6, "978-6-7890-1234-5", "Magi"),
+                new Book(7, "978-7-8901-2345-6", "Blank Canvas"),
+                new Book(8, "978-8-9012-3456-7", "Berserk"),
+                new Book(9, "978-9-0123-4567-8", "Vagabond"),
+                new Book(10, "978-0-1234-5678-9", "Kingdom"),
+                new Book(11, "978-1-1223-3445-5", "ReLife"),
+                new Book(12, "978-2-2334-4556-6", "Hunter x Hunter"),
+                new Book(13, "978-3-3445-5667-7", "The Great Gatsby"),
+                new Book(14, "978-4-4556-6778-8", "The Boxer"),
+                new Book(15, "978-5-5667-7889-9", "Fragrant Flower"),
+                new Book(16, "978-6-6778-8990-0", "To Kill a Mocking Bird"),
+                new Book(17, "978-7-7889-9001-1", "1984"),
+                new Book(18, "978-8-8990-0112-2", "Land of the Lustrous"),
+                new Book(19, "978-9-9001-1223-3", "Tokyo Ghoul"),
+                new Book(20, "978-1-0111-2131-4", "Slam Dunk")
         };
 
         Scanner read = new Scanner(System.in);
 
-        // While the currentChoice is empty, run the program
+        // Keeps the program running until the user exits
         String currentChoice = "";
 
         // Display the menu
@@ -64,10 +57,8 @@ public class Main {
             displayMenuOptions();
             currentChoice = read.nextLine();
 
-            switch (currentChoice) {
+            switch (currentChoice.toUpperCase()) { // Used toUpperCase to ensure users can exit seamlessly
                 case "1":
-                    System.out.println("Show available books");
-
                     // Method to display current available books
                     showAvailableBooks(inventory);
 
@@ -75,17 +66,23 @@ public class Main {
                     checkBookOut(inventory, read);
                     break;
                 case "2":
-                    System.out.println("Show currently checked out books");
-
                     // Method to display checked out books
                     showCheckedOutBooks(inventory);
 
-                    // Prompt that asks users if they want to check in a book
-                    System.out.print("Press C to check in a book, or X to return: ");
-                    String checkInChoice = read.nextLine();
+                    // Prompt the user to check in a book or return to the home screen
+                    String checkInChoice = "";
 
-                    if (checkInChoice.equalsIgnoreCase("C")) {
-                        checkBookIn(inventory, read);
+                    while (!checkInChoice.equalsIgnoreCase("X")) {
+                        System.out.print("Press C to check in a book, or X to return: ");
+                        checkInChoice = read.nextLine();
+
+                        if (checkInChoice.equalsIgnoreCase("C")) {
+                            checkBookIn(inventory, read);
+                            break;
+                        }
+                        else if (!checkInChoice.equalsIgnoreCase("X")) {
+                            System.out.println("Invalid choice! Please enter C or X.");
+                        }
                     }
                     break;
                 case "X":
@@ -108,11 +105,15 @@ public class Main {
 
     // 1. Menu method: displayMenuOptions() method
     public static void displayMenuOptions() {
-        System.out.println("What would you like to do?");
-        System.out.println("1. Show current available books");
-        System.out.println("2. Show the books that have been checked out");
-        System.out.println("X. Exit the program");
-        System.out.print("Enter your choice to proceed (1, 2, X): ");
+        System.out.print("""
+
+            ========== LIBRARY MAIN MENU ==========
+            What would you like to do?
+            1. Show available books
+            2. Show checked out books
+            X. Exit the program
+            ---------------------------------------
+            Enter your choice (1, 2, X):\s""");
     }
 
     // 2. Show available books: showAvailableBooks()
@@ -135,12 +136,14 @@ public class Main {
 
     // 3. Show current checked out books: showCheckedOutBooks()
     public static void showCheckedOutBooks(Book[] inventory) {
+        System.out.println("=== CHECKED OUT BOOKS ===");
+
         for (Book book: inventory) {
-            if(book.isCheckedOut()) {
-                System.out.print("ID: " + book.getId());
-                System.out.print("ISBN: " + book.getIsbn());
-                System.out.print(("Title: " + book.getTitle()));
-                System.out.println();
+            if (book.isCheckedOut()) {
+                System.out.println("ID: " + book.getId()
+                        + " | ISBN: " + book.getIsbn()
+                        + " | Title: " + book.getTitle()
+                        + " | Checked Out To: " + book.getCheckedOutTo());
             }
         }
     }
@@ -150,10 +153,18 @@ public class Main {
 
         // Prompt the user to select a book to check out, or exit back to the home screen
         System.out.print("Select a book to check out from its ID number, if not press 0 to exit: ");
-        int bookId = read.nextInt();
-        read.nextLine();
+        int bookId;
 
-        // If the entered bookId is 0, exit the program
+        // Try-catch exception that handles invalid book ID inputs
+        try {
+            bookId = Integer.parseInt(read.nextLine());
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Invalid input! Please enter a valid book ID.");
+            return;
+        }
+
+        // If the entered bookId is 0, return to the main menu
         if (bookId == 0) {
             return;
         }
@@ -188,8 +199,16 @@ public class Main {
 
         // Prompt the user for the ID of the book they want to check in
         System.out.print("Enter the ID of the book you want to check in: ");
-        int bookId = read.nextInt();
-        read.nextLine();
+        int bookId;
+
+        // Try catch exception to handle valid input formats
+        try {
+            bookId = Integer.parseInt(read.nextLine());
+        }
+        catch (NumberFormatException e) {
+            System.out.println("Invalid input! Please enter a valid book ID.");
+            return;
+        }
 
         // Check in the book with its specified id
         for (Book book: inventory) {
