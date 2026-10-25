@@ -8,7 +8,7 @@ package com.pluralsight;
 
 import java.util.Scanner;
 
-public class Main {
+public class NeighborhoodLibrary {
     public static void main(String[] args) {
 
         // Project Requirements
