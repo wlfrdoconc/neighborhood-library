@@ -1,11 +1,7 @@
 package com.pluralsight;
 
-import jdk.swing.interop.SwingInterOpUtils;
-
 import java.util.Scanner;
 
-//TIP To <b>Run</b> code, press <shortcut actionId="Run"/> or
-// click the <icon src="AllIcons.Actions.Execute"/> icon in the gutter.
 public class Main {
     public static void main(String[] args) {
 
@@ -70,19 +66,30 @@ public class Main {
 
             switch (currentChoice) {
                 case "1":
-                    System.out.println("Show available books TEST");
+                    System.out.println("Show available books");
 
                     // Method to display current available books
                     showAvailableBooks(inventory);
+
+                    // Method to check out a book
+                    checkBookOut(inventory, read);
                     break;
                 case "2":
-                    System.out.println("Show currently checked out books TEST");
+                    System.out.println("Show currently checked out books");
 
                     // Method to display checked out books
                     showCheckedOutBooks(inventory);
+
+                    // Prompt that asks users if they want to check in a book
+                    System.out.print("Press C to check in a book, or X to return: ");
+                    String checkInChoice = read.nextLine();
+
+                    if (checkInChoice.equalsIgnoreCase("C")) {
+                        checkBookIn(inventory, read);
+                    }
                     break;
                 case "X":
-                    System.out.println("See you later! TEST");
+                    System.out.println("See you later!");
                     break;
                 default:
                     System.out.println("Invalid choice! Please try again.");
@@ -122,14 +129,8 @@ public class Main {
                 System.out.println("ID: " + book.getId()
                         + " | ISBN: " + book.getIsbn()
                         + " | Title: " + book.getTitle());
-                System.out.println();
             }
         }
-
-        // Prompt the user to select a book to check out, or exit back to the home screen
-        System.out.println("Would you like to check out a book? Select X to continue, otherwise press X: ");
-
-
     }
 
     // 3. Show current checked out books: showCheckedOutBooks()
@@ -179,13 +180,34 @@ public class Main {
         }
 
         // If the user enters an ID that doesn't match, print error message
-        System.out.println("The entered ID doesn't match any books in our library");
+        System.out.println("The entered ID doesn't match any books in our library.");
     }
 
     // 5. Check in a book: checkBookIn()
     public static void checkBookIn(Book[] inventory, Scanner read) {
 
+        // Prompt the user for the ID of the book they want to check in
+        System.out.print("Enter the ID of the book you want to check in: ");
+        int bookId = read.nextInt();
+        read.nextLine();
+
+        // Check in the book with its specified id
+        for (Book book: inventory) {
+            if (book.getId() == bookId) {
+                if (book.isCheckedOut()) { // Checks if the book is currently checked out
+                    book.checkIn(); // If it is you can check it in
+                    System.out.println("The book has been successfully checked in!");
+                }
+                else {
+                    // Return a message if the book is already in the library
+                    System.out.println("That book is already in our library.");
+                }
+                return;
+            }
+        }
+
+        // If the user enters an ID that doesn't match, print error message
+        System.out.println("The entered ID doesn't match any books in our library.");
+
     }
-
-
 }
